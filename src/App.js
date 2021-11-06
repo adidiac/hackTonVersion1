@@ -1,23 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
-
+import {useState, useSttate} from 'react'
+import ChatBot from './Components/ChatBot';
+import Home from './Components/Home'
+import LoginParent from './Components/LoginParent';
+import ParentPanel from './Components/ParentPanel';
 function App() {
+
+  const [user,setUser]=useState({type:"parent",logged:"yes"});
+  const [screenParent,setScreenParent]=useState();
+  const render=()=>{
+    if(user)
+    {
+    if(user.type=="parent")
+    {
+      if(user.logged=="yes")
+      {
+        if(screenParent)
+        {
+          if(screenParent=="obesity")
+          {
+
+          }
+          else
+          {
+
+          }
+        }
+        else
+          return <ParentPanel  setUser={setUser} user={user} setScreenParent={setScreenParent}></ParentPanel>
+      }
+      else
+      {
+        return <LoginParent setUser={setUser} user={user}></LoginParent>
+      }
+    }
+    if(user.type=="child")
+    {
+        return <ChatBot  setUser={setUser} user={user}></ChatBot>
+    }
+    }else{
+        return <Home setUser={setUser} user={user}></Home>
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        render()
+      }
     </div>
   );
 }
