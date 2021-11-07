@@ -6,12 +6,14 @@ import question from './Assets/question.png'
 import overweight from './Assets/overweight.png'
 import normal from './Assets/normal.png'
 import * as Icons from 'react-icons/md'
+import axios from "axios";
 export default function ObesityPrediction({setScreenParent})
 {
     document.body.style.backgroundColor = "white";
-    const [type,setType]=useState("Obesity_Type_II")
+    const [type,setType]=useState("")
     const render=()=>{
-        if(type=="Normal_Weight")
+        console.log(type);
+        if(type==="Normal Weight")
         {
             return <Col>
                <Row className="justify-content-md-center">
@@ -22,7 +24,7 @@ export default function ObesityPrediction({setScreenParent})
                 </Row>
                 </Col>
         }
-        if(type=="Overweight_Level_I")
+        if(type==="Overweight Level I")
         {
             return <Col>
                <Row className="justify-content-md-center">
@@ -33,7 +35,7 @@ export default function ObesityPrediction({setScreenParent})
                 </Row>
                 </Col>
         }
-        if(type=="Overweight_Level_II")
+        if(type==="Overweight Level II")
         {
             return <Col>
                <Row className="justify-content-md-center">
@@ -44,7 +46,7 @@ export default function ObesityPrediction({setScreenParent})
                 </Row>
                 </Col>
         }
-        if(type=="Obesity_Type_I")
+        if(type==="Obesity Type I")
         {
             return <Col>
              <Row className="justify-content-md-center">
@@ -55,7 +57,7 @@ export default function ObesityPrediction({setScreenParent})
                 </Row>
                 </Col>
         }
-        if(type=="Obesity_Type_II")
+        if(type==="Obesity Type II")
         {
             return <Col>
              <Row className="justify-content-md-center">
@@ -66,7 +68,7 @@ export default function ObesityPrediction({setScreenParent})
                 </Row>
                 </Col>
         }
-        if(type=="Obesity_Type_III")
+        if(type==="Obesity Type III")
         {
             return <Col>
              <Row className="justify-content-md-center">
@@ -102,6 +104,14 @@ export default function ObesityPrediction({setScreenParent})
 
         console.log(array.join("."));
         //set type
+        axios.post("http://localhost:2409/parent/obesityPrediction",{args: array.join('.')}).
+        then((res)=>{
+            console.log(res.data.trim())
+            setType(res.data.trim());
+        }).catch(function (error) {
+        
+            console.log(error.toJSON());
+          })
 
     }
     return  <>
