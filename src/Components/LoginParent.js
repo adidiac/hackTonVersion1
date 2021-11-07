@@ -1,33 +1,43 @@
-import { Container,Form,Button, Col,Row,Tabs,Tab} from "react-bootstrap";
-
+import { Container,Form,Button, Col,Row,Tabs,Tab,Modal} from "react-bootstrap";
+import axios from "axios";
+import { useState } from "react";
 export default function LoginParent({setUser,user})
 {
     document.body.style.backgroundColor = "white";
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => {setShow(false);setError("")};
+    const handleShow = () => setShow(true);
+  
+    const [error,setError]=useState("")
     const sendDataRegister=
     (name,user,password)=>{
         console.log(user+" "+password);
         //TODO sent this to server
-        // axios.post("http://localhost:3000/users/login",{email:user,password:password,name:name}).
-        // then((res)=>{
-        //     console.log(res);
-        //     setUser(res.data);
-        // }).catch(function (error) {
-        //     alert("Credentiale incorecte")
-        //     console.log(error.toJSON());
-        //   });;
+        axios.post("http://localhost:2409/auth/register",{email:user,password:password,name:name}).
+        then((res)=>{
+            console.log(res.data);
+            setUser({type:"parent",logged:"yes"});
+        }).catch(function (error) {
+            setError("Email luat deja")
+            handleShow();
+            console.log(error.toJSON());
+          });;
 
     }
     const sendData=(user,password)=>{
         console.log(user+" "+password);
         //TODO sent this to server
-        // axios.post("http://localhost:3000/users/login",{email:user,password:password}).
-        // then((res)=>{
-        //     console.log(res);
-        //     setUser(res.data);
-        // }).catch(function (error) {
-        //     alert("Credentiale incorecte")
-        //     console.log(error.toJSON());
-        //   });;
+        axios.post("http://localhost:2409/auth/login",{email:user,password:password}).
+        then((res)=>{
+            console.log(res.data);
+            setUser({type:"parent",logged:"yes"});
+        }).catch(function (error) {
+            //alert("Credentiale incorecte")
+            setError("Credentiale incorecte")
+            handleShow();
+            console.log(error.toJSON());
+          });;
 
     }
 
@@ -85,6 +95,17 @@ export default function LoginParent({setUser,user})
         </Row>
         </Col>
     </Container>
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Eroare</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{error}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
 
 }

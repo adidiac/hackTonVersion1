@@ -3,9 +3,11 @@ import ChatBot from './Components/ChatBot';
 import Home from './Components/Home'
 import LoginParent from './Components/LoginParent';
 import ParentPanel from './Components/ParentPanel';
+import ObesityPrediction from './Components/ParentScreen/ObesityPrediction';
+import SentimentAnalysis from './Components/ParentScreen/SentimentAnalysis';
 function App() {
 
-  const [user,setUser]=useState({type:"parent",logged:"yes"});
+  const [user,setUser]=useState("");
   const [screenParent,setScreenParent]=useState();
   const render=()=>{
     if(user)
@@ -18,11 +20,11 @@ function App() {
         {
           if(screenParent=="obesity")
           {
-
+              return <ObesityPrediction setScreenParent={setScreenParent}></ObesityPrediction>;
           }
           else
           {
-
+            return <SentimentAnalysis setScreenParent={setScreenParent}></SentimentAnalysis>
           }
         }
         else
